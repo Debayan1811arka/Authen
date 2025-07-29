@@ -8,7 +8,7 @@ const port = 6002;
 
 
 app.use(cors({
-  origin: 'https://authenport.netlify.app/',
+  origin: 'https://authenport.netlify.app',
   credentials: true
 }));
 app.use(express.json());
