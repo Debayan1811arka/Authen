@@ -7,7 +7,10 @@ const router = require("./Routes/router")
 const port = 6002;
 
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://authenport.netlify.app/',
+  credentials: true
+}));
 app.use(express.json());
 
 app.use(router)
