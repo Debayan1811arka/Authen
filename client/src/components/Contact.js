@@ -33,7 +33,7 @@ const Contact = () => {
     if (!mobile) return toast.error('Mobile Number is required');
 
     try {
-      const res = await fetch('https://authen-tz7a.onrender.com', {
+      const res = await fetch('https://authen-tz7a.onrender.com/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
