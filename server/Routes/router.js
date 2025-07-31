@@ -4,7 +4,7 @@ const User = require("../models/userSchema");
 
 const router = express.Router();
 
-router.post("/register", async (req, res) => {
+router.post("/contact", async (req, res) => {
   const { fname, lname, email, mobile, message } = req.body;
 
   if (!fname || !lname || !email || !mobile || !message) {
