@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './Contact.css';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Contact = () => {
   const [inputvalue, setInputvalue] = useState({
@@ -10,14 +11,14 @@ const Contact = () => {
     lname: '',
     email: '',
     mobile: '',
-    message: ''
+    message: '',
   });
 
   const getvalue = (e) => {
     const { name, value } = e.target;
     setInputvalue((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -36,17 +37,23 @@ const Contact = () => {
       const res = await fetch('https://authen-tz7a.onrender.com/contact', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ fname, lname, email, mobile, message })
+        body: JSON.stringify({ fname, lname, email, mobile, message }),
       });
 
       const data = await res.json();
       console.log(data);
 
-      if (res.status === 201) {
-        toast.success('Your Response Is Submitted');
-        setInputvalue({ fname: '', lname: '', email: '', mobile: '', message: '' });
+      if (res.ok) {
+        toast.success('Your Response is Submitted');
+        setInputvalue({
+          fname: '',
+          lname: '',
+          email: '',
+          mobile: '',
+          message: '',
+        });
       } else {
         toast.error(data.message || 'Submission failed');
       }
@@ -63,27 +70,56 @@ const Contact = () => {
         <Form className="row mt-2" onSubmit={sentUserdata}>
           <Form.Group className="mb-3 col-lg-6" controlId="formFName">
             <Form.Label>First Name</Form.Label>
-            <Form.Control type="text" name="fname" value={inputvalue.fname} onChange={getvalue} />
+            <Form.Control
+              type="text"
+              name="fname"
+              value={inputvalue.fname}
+              onChange={getvalue}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3 col-lg-6" controlId="formLName">
             <Form.Label>Last Name</Form.Label>
-            <Form.Control type="text" name="lname" value={inputvalue.lname} onChange={getvalue} />
+            <Form.Control
+              type="text"
+              name="lname"
+              value={inputvalue.lname}
+              onChange={getvalue}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3 col-lg-6" controlId="formEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" name="email" placeholder="Enter email" value={inputvalue.email} onChange={getvalue} />
+            <Form.Control
+              type="email"
+              name="email"
+              placeholder="Enter email"
+              value={inputvalue.email}
+              onChange={getvalue}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3 col-lg-6" controlId="formMobile">
             <Form.Label>Mobile</Form.Label>
-            <Form.Control type="text" name="mobile" placeholder="Enter Mobile Number" value={inputvalue.mobile} onChange={getvalue} />
+            <Form.Control
+              type="text"
+              name="mobile"
+              placeholder="Enter Mobile Number"
+              value={inputvalue.mobile}
+              onChange={getvalue}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3 col-12" controlId="formMessage">
             <Form.Label>Message</Form.Label>
-            <Form.Control as="textarea" rows={4} placeholder="Enter a Message" name="message" value={inputvalue.message} onChange={getvalue} />
+            <Form.Control
+              as="textarea"
+              rows={4}
+              placeholder="Enter a Message"
+              name="message"
+              value={inputvalue.message}
+              onChange={getvalue}
+            />
           </Form.Group>
 
           <div className="d-flex justify-content-center">
