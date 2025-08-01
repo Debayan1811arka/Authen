@@ -1,47 +1,79 @@
 const express = require("express");
-const router = express.Router();
+const router = new express.Router();
+const users = require("../models/userSchema");
 const nodemailer = require("nodemailer");
 
-router.post("/register", async (req, res) => {
-  try {
-    const { fname, lname, email, phone, message } = req.body;
+//email config
+const transporter = nodemailer.createTransport({
+    service:"gmail",
+    auth:{
+        user:process.env.EMAIL,
+        pass:process.env.PASS
+    }
+})
 
-    // Validate required fields
-    if (!fname || !email) {
-      return res.status(400).json({ error: "First name and email are required." });
+
+//register user details
+router.post("/register",async(req,res)=>{
+    const{fname, lname, email, mobile, message} = req.body;
+
+    if(!fname || !lname || !email || !mobile){
+        res.status(401).json({status:401,error:"All Input Required"})
     }
 
-    // Check if environment variables exist
-    if (!process.env.EMAIL || !process.env.PASSWORD) {
-      console.error("Missing EMAIL or PASSWORD in environment variables");
-      return res.status(500).json({ error: "Server misconfiguration" });
+    try{
+       const preuser = await users.findOne({email:email});
+
+       if(preuser){
+        const userMessage = await preuser.Messagesave(message);
+        console.log(userMessage);
+        const mailOptions = {
+            from:process.env.EMAIL,
+            to:email,
+            subject:"sending email using nodejs",
+            text:"Your Form Has Been Submitted"
+         }
+
+         transporter.sendMail(mailOptions,(error,info)=>{
+            if(error){
+                console.log("error" + error)
+            }else{
+                console.log("Email Sent" + info.response);
+                res.status(201).json({status:201,message:"Email Sent Succsessfully"})
+            }
+         });
+       }else{
+         const finalUser = new users({
+            fname, lname, email, mobile, message
+         });
+
+         const storeData = await finalUser.save();
+
+         const mailOptions = {
+            from:process.env.EMAIL,
+            to:email,
+            subject:"sending email using nodejs",
+            text:"Your Form Has Been Submitted"
+         }
+
+         transporter.sendMail(mailOptions,(error,info)=>{
+            if(error){
+                console.log("error" + error)
+            }else{
+                console.log("Email Sent" + info.response);
+                res.status(201).json({status:201,message:"Email Sent Succsessfully"})
+            }
+         });
+         res.status(201).json({status:201,storeData})
+
+       }
+    } catch (error) {
+        res.status(401).json({status:401,error:"All Input Required"})
+        console.log("catch error")
     }
+    
+})
 
-    // Setup Nodemailer transporter
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL,
-        pass: process.env.PASSWORD,
-      },
-    });
 
-    // Prepare email
-    const mailOptions = {
-      from: process.env.EMAIL,
-      to: email,
-      subject: "Form Submission Confirmation",
-      text: `Hello ${fname},\n\nYour form has been submitted successfully.\n\nYou can view confirmation at: https://authenport.netlify.app/contact\n\nThank you!\n\n--\nSubmitted Details:\nName: ${fname} ${lname}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`,
-    };
-
-    // Send email
-    await transporter.sendMail(mailOptions);
-
-    res.status(201).json({ message: "Form submitted and email sent successfully" });
-  } catch (error) {
-    console.error("Error in /register:", error);
-    res.status(500).json({ error: error.message || "Internal Server Error" });
-  }
-});
 
 module.exports = router;
