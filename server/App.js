@@ -19,7 +19,7 @@ app.use(cors({
 
 // Middleware
 app.use(express.json()); // To parse JSON bodies
-app.use(router);         // Your route handler
+app.use("/", router);         // Your route handler
 
 // Start Server
 app.listen(port, () => {
