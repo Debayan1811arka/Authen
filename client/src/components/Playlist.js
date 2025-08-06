@@ -29,11 +29,17 @@ const Playlist = () => {
                     <Card.Img variant="top" style={{ height: "10rem", objectFit: "cover" }} src={el.imgsrc} />
                     <Card.Body className='d-flex justify-content-center flex-column'>
                       <Card.Title className='text-center'>{el.projectName}</Card.Title>
-                      <Button variant="primary">
-                        <a href={el.demo} target="_blank" rel="noopener noreferrer" className='text-decoration-none text-light'>
-                          Live Demo
-                        </a>
+                      <Button
+                        variant="primary"
+                        as="a"
+                        href={el.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className='text-decoration-none text-light text-center'
+                       >
+                        Live Demo
                       </Button>
+
                     </Card.Body>
                   </Card>
                 </div>
