@@ -1,43 +1,38 @@
-import React from 'react'
+import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import Button from 'react-bootstrap/Button';
 import { NavLink } from 'react-router-dom';
 
-
 const Header = () => {
-
     const common = {
-        marginRight:15,
-        fontSize:17,
-        letterSpaing:".5px",
-        color:"white"
-    }
+        marginRight: 15,
+        fontSize: 17,
+        letterSpacing: ".5px",
+        color: "white"
+    };
+
     return (
         <>
-            <Navbar bg="dark" variant="dark">
+            <Navbar bg="dark" variant="dark" expand="md"> {/* expand="md" makes it responsive from md and down */}
                 <Container>
-                    <div>
-                        <h2 className='mt-2 h2_right' style={{ color: "#f8f9fa" }}>
-                            <Nav.Link href="#home" >Debayan</Nav.Link>
-                        </h2>
-                    </div>
-                    <Nav className="">
-                        <div>
+                    <Navbar.Brand>
+                        <Nav.Link href="#home" style={{ color: "#f8f9fa", fontSize: 24 }}>Debayan</Nav.Link>
+                    </Navbar.Brand>
+
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" /> {/* Hamburger icon */}
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="ms-auto"> {/* Push nav to right */}
                             <NavLink to="/" className="text-decoration-none" style={common}>Home</NavLink>
                             <NavLink to="/about" className="text-decoration-none" style={common}>About</NavLink>
                             <NavLink to="/playlist" className="text-decoration-none" style={common}>Projects</NavLink>
                             <NavLink to="/contact" className="text-decoration-none" style={common}>Contact</NavLink>
-                        </div>
-                        <div>
-                           <Button variant='danger'>Danger</Button>
-                        </div>
-                    </Nav>
+                        </Nav>
+                    </Navbar.Collapse>
                 </Container>
             </Navbar>
         </>
-    )
-}
+    );
+};
 
-export default Header
+export default Header;
