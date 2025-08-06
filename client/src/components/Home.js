@@ -20,11 +20,7 @@ const Home = () => {
             building a sleek frontend or optimizing backend performance, I aim to deliver robust, user-centric digital experiences.
 
           </p>
-          <div className="btn_div mt-4">
-          <Button variant="danger" style={{color:"#f8f9fa", letterSpacing:"1px", border:"none", borderRadius:4, background:"#0000ff", marginRight:24}}>Projects</Button>
-          <Button variant="danger" style={{color:"#f8f9fa", letterSpacing:"1px", border:"none", borderRadius:4, background:"#0000ff", marginRight:24}}>Projects</Button>
-
-          </div>
+          
         </div>
         <div className="right_div">
           <img src="logo1.png" alt="" />
